@@ -23,11 +23,11 @@ const CustomImage = Image.extend({
       ...this.parent?.(),
       size: {
         default: 100,
-        parseHTML: element => {
+        parseHTML: (element) => {
           const width = element.style.width
           return width ? parseInt(width, 10) : 100
         },
-        renderHTML: attributes => {
+        renderHTML: (attributes) => {
           if (!attributes.size) {
             return {}
           }
@@ -38,19 +38,19 @@ const CustomImage = Image.extend({
       },
       alignment: {
         default: 'left',
-        parseHTML: element => element.getAttribute('data-alignment'),
-        renderHTML: attributes => {
+        parseHTML: (element) => element.getAttribute('data-alignment'),
+        renderHTML: (attributes) => {
           if (!attributes.alignment) {
             return {}
           }
-          
+
           let style = ''
           if (attributes.alignment === 'center') {
             style = 'margin-left: auto; margin-right: auto; display: block;'
           } else if (attributes.alignment === 'right') {
             style = 'margin-left: auto; display: block;'
           }
-          
+
           return {
             'data-alignment': attributes.alignment,
             style: style + (attributes.size ? `width: ${attributes.size}%;` : ''),
@@ -93,16 +93,17 @@ const MenuBar = ({ editor }) => {
   }
 
   // 获取当前选中的图片节点
-  const selectedImage = editor.state.selection instanceof NodeSelection && 
-                       editor.state.selection.node.type.name === 'image' 
-                       ? editor.state.selection.node 
-                       : null
+  const selectedImage =
+    editor.state.selection instanceof NodeSelection &&
+    editor.state.selection.node.type.name === 'image'
+      ? editor.state.selection.node
+      : null
 
   return (
-    <div className="border-b border-gray-200 dark:border-gray-700 mb-4 pb-4 flex flex-wrap gap-2">
+    <div className="mb-4 flex flex-wrap gap-2 border-b border-gray-200 pb-4 dark:border-gray-700">
       <button
         onClick={() => editor.chain().focus().toggleBold().run()}
-        className={`px-2 py-1 rounded ${
+        className={`rounded px-2 py-1 ${
           editor.isActive('bold')
             ? 'bg-gray-700 text-white'
             : 'bg-gray-200 hover:bg-gray-300 dark:bg-gray-700 dark:hover:bg-gray-600'
@@ -112,7 +113,7 @@ const MenuBar = ({ editor }) => {
       </button>
       <button
         onClick={() => editor.chain().focus().toggleItalic().run()}
-        className={`px-2 py-1 rounded ${
+        className={`rounded px-2 py-1 ${
           editor.isActive('italic')
             ? 'bg-gray-700 text-white'
             : 'bg-gray-200 hover:bg-gray-300 dark:bg-gray-700 dark:hover:bg-gray-600'
@@ -122,7 +123,7 @@ const MenuBar = ({ editor }) => {
       </button>
       <button
         onClick={() => editor.chain().focus().toggleStrike().run()}
-        className={`px-2 py-1 rounded ${
+        className={`rounded px-2 py-1 ${
           editor.isActive('strike')
             ? 'bg-gray-700 text-white'
             : 'bg-gray-200 hover:bg-gray-300 dark:bg-gray-700 dark:hover:bg-gray-600'
@@ -132,7 +133,7 @@ const MenuBar = ({ editor }) => {
       </button>
       <button
         onClick={() => editor.chain().focus().toggleCode().run()}
-        className={`px-2 py-1 rounded ${
+        className={`rounded px-2 py-1 ${
           editor.isActive('code')
             ? 'bg-gray-700 text-white'
             : 'bg-gray-200 hover:bg-gray-300 dark:bg-gray-700 dark:hover:bg-gray-600'
@@ -142,7 +143,7 @@ const MenuBar = ({ editor }) => {
       </button>
       <button
         onClick={() => editor.chain().focus().toggleCodeBlock().run()}
-        className={`px-2 py-1 rounded ${
+        className={`rounded px-2 py-1 ${
           editor.isActive('codeBlock')
             ? 'bg-gray-700 text-white'
             : 'bg-gray-200 hover:bg-gray-300 dark:bg-gray-700 dark:hover:bg-gray-600'
@@ -152,7 +153,7 @@ const MenuBar = ({ editor }) => {
       </button>
       <button
         onClick={() => editor.chain().focus().toggleHeading({ level: 1 }).run()}
-        className={`px-2 py-1 rounded ${
+        className={`rounded px-2 py-1 ${
           editor.isActive('heading', { level: 1 })
             ? 'bg-gray-700 text-white'
             : 'bg-gray-200 hover:bg-gray-300 dark:bg-gray-700 dark:hover:bg-gray-600'
@@ -162,7 +163,7 @@ const MenuBar = ({ editor }) => {
       </button>
       <button
         onClick={() => editor.chain().focus().toggleHeading({ level: 2 }).run()}
-        className={`px-2 py-1 rounded ${
+        className={`rounded px-2 py-1 ${
           editor.isActive('heading', { level: 2 })
             ? 'bg-gray-700 text-white'
             : 'bg-gray-200 hover:bg-gray-300 dark:bg-gray-700 dark:hover:bg-gray-600'
@@ -172,7 +173,7 @@ const MenuBar = ({ editor }) => {
       </button>
       <button
         onClick={() => editor.chain().focus().toggleHeading({ level: 3 }).run()}
-        className={`px-2 py-1 rounded ${
+        className={`rounded px-2 py-1 ${
           editor.isActive('heading', { level: 3 })
             ? 'bg-gray-700 text-white'
             : 'bg-gray-200 hover:bg-gray-300 dark:bg-gray-700 dark:hover:bg-gray-600'
@@ -182,7 +183,7 @@ const MenuBar = ({ editor }) => {
       </button>
       <button
         onClick={() => editor.chain().focus().toggleBulletList().run()}
-        className={`px-2 py-1 rounded ${
+        className={`rounded px-2 py-1 ${
           editor.isActive('bulletList')
             ? 'bg-gray-700 text-white'
             : 'bg-gray-200 hover:bg-gray-300 dark:bg-gray-700 dark:hover:bg-gray-600'
@@ -192,7 +193,7 @@ const MenuBar = ({ editor }) => {
       </button>
       <button
         onClick={() => editor.chain().focus().toggleOrderedList().run()}
-        className={`px-2 py-1 rounded ${
+        className={`rounded px-2 py-1 ${
           editor.isActive('orderedList')
             ? 'bg-gray-700 text-white'
             : 'bg-gray-200 hover:bg-gray-300 dark:bg-gray-700 dark:hover:bg-gray-600'
@@ -202,7 +203,7 @@ const MenuBar = ({ editor }) => {
       </button>
       <button
         onClick={() => editor.chain().focus().toggleBlockquote().run()}
-        className={`px-2 py-1 rounded ${
+        className={`rounded px-2 py-1 ${
           editor.isActive('blockquote')
             ? 'bg-gray-700 text-white'
             : 'bg-gray-200 hover:bg-gray-300 dark:bg-gray-700 dark:hover:bg-gray-600'
@@ -212,15 +213,15 @@ const MenuBar = ({ editor }) => {
       </button>
       <button
         onClick={() => editor.chain().focus().setHorizontalRule().run()}
-        className="px-2 py-1 rounded bg-gray-200 hover:bg-gray-300 dark:bg-gray-700 dark:hover:bg-gray-600"
+        className="rounded bg-gray-200 px-2 py-1 hover:bg-gray-300 dark:bg-gray-700 dark:hover:bg-gray-600"
       >
         分割线
       </button>
       <ImageUpload onUpload={handleImageUpload} />
-      
+
       {/* 图片控制面板 */}
       {selectedImage && (
-        <div className="flex items-center gap-4 ml-4 p-2 bg-gray-100 dark:bg-gray-800 rounded">
+        <div className="ml-4 flex items-center gap-4 rounded bg-gray-100 p-2 dark:bg-gray-800">
           {/* 尺寸控制 */}
           <div className="flex items-center gap-2">
             <label className="text-sm">尺寸:</label>
@@ -229,7 +230,7 @@ const MenuBar = ({ editor }) => {
                 <button
                   key={value}
                   onClick={() => handleImageResize(value)}
-                  className={`px-2 py-1 rounded text-sm ${
+                  className={`rounded px-2 py-1 text-sm ${
                     selectedImage.attrs.size === value
                       ? 'bg-gray-700 text-white'
                       : 'bg-gray-200 hover:bg-gray-300 dark:bg-gray-700 dark:hover:bg-gray-600'
@@ -240,14 +241,14 @@ const MenuBar = ({ editor }) => {
               ))}
             </div>
           </div>
-          
+
           {/* 对齐控制 */}
           <div className="flex items-center gap-2">
             <label className="text-sm">对齐:</label>
             <div className="flex gap-1">
               <button
                 onClick={() => handleImageAlign('left')}
-                className={`px-2 py-1 rounded text-sm ${
+                className={`rounded px-2 py-1 text-sm ${
                   selectedImage.attrs.alignment === 'left'
                     ? 'bg-gray-700 text-white'
                     : 'bg-gray-200 hover:bg-gray-300 dark:bg-gray-700 dark:hover:bg-gray-600'
@@ -257,7 +258,7 @@ const MenuBar = ({ editor }) => {
               </button>
               <button
                 onClick={() => handleImageAlign('center')}
-                className={`px-2 py-1 rounded text-sm ${
+                className={`rounded px-2 py-1 text-sm ${
                   selectedImage.attrs.alignment === 'center'
                     ? 'bg-gray-700 text-white'
                     : 'bg-gray-200 hover:bg-gray-300 dark:bg-gray-700 dark:hover:bg-gray-600'
@@ -267,7 +268,7 @@ const MenuBar = ({ editor }) => {
               </button>
               <button
                 onClick={() => handleImageAlign('right')}
-                className={`px-2 py-1 rounded text-sm ${
+                className={`rounded px-2 py-1 text-sm ${
                   selectedImage.attrs.alignment === 'right'
                     ? 'bg-gray-700 text-white'
                     : 'bg-gray-200 hover:bg-gray-300 dark:bg-gray-700 dark:hover:bg-gray-600'
@@ -310,10 +311,10 @@ const PostEditor = ({ content = '', onChange }) => {
       <MenuBar editor={editor} />
       <EditorContent
         editor={editor}
-        className="prose dark:prose-invert max-w-none min-h-[500px] border rounded-lg p-4 focus:outline-none"
+        className="prose min-h-[500px] max-w-none rounded-lg border p-4 focus:outline-none dark:prose-invert"
       />
     </div>
   )
 }
 
-export default PostEditor 
+export default PostEditor

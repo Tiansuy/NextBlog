@@ -8,7 +8,7 @@ export default function EditPost() {
   const { data: session, status } = useSession()
   const router = useRouter()
   const { slug } = router.query
-  
+
   const [title, setTitle] = useState('')
   const [content, setContent] = useState('')
   const [tags, setTags] = useState('')
@@ -21,8 +21,8 @@ export default function EditPost() {
   useEffect(() => {
     if (slug) {
       fetch(`/api/posts?slug=${slug}`)
-        .then(res => res.json())
-        .then(data => {
+        .then((res) => res.json())
+        .then((data) => {
           setTitle(data.frontmatter.title || '')
           setContent(data.content || '')
           setTags(data.frontmatter.tags?.join(', ') || '')
@@ -30,7 +30,7 @@ export default function EditPost() {
           setIsDraft(data.frontmatter.draft || false)
           setIsLoading(false)
         })
-        .catch(error => {
+        .catch((error) => {
           console.error('Error loading post:', error)
           alert('加载文章时出错')
           router.push('/admin/posts')
@@ -66,12 +66,14 @@ export default function EditPost() {
 
       // 如果标题改变导致 slug 改变，需要检查新的文件名是否存在
       if (newSlug !== slug) {
-        const checkResponse = await fetch(`/api/posts?slug=${encodeURIComponent(newSlug)}&checkExistence=true`)
+        const checkResponse = await fetch(
+          `/api/posts?slug=${encodeURIComponent(newSlug)}&checkExistence=true`
+        )
         if (!checkResponse.ok) {
           throw new Error('检查文章是否存在时出错')
         }
         const existingPost = await checkResponse.json()
-        
+
         if (existingPost.exists) {
           alert('已存在同名文章，请修改标题后重试')
           setIsSaving(false)
@@ -82,7 +84,7 @@ export default function EditPost() {
       // 转换标签字符串为数组
       const tagArray = tags
         .split(',')
-        .map(tag => tag.trim())
+        .map((tag) => tag.trim())
         .filter(Boolean)
 
       // 转换 HTML 为 MDX
@@ -101,21 +103,24 @@ export default function EditPost() {
         tags: tagArray,
         draft: isDraft,
         summary: summary.trim(),
-        layout: 'PostLayout'
+        layout: 'PostLayout',
       }
 
       // 保存文章
-      const saveResponse = await fetch(`/api/posts?update=true${newSlug !== slug ? '&oldSlug=' + encodeURIComponent(slug) : ''}`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          slug: newSlug,
-          content: mdxContent,
-          frontmatter
-        })
-      })
+      const saveResponse = await fetch(
+        `/api/posts?update=true${newSlug !== slug ? '&oldSlug=' + encodeURIComponent(slug) : ''}`,
+        {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            slug: newSlug,
+            content: mdxContent,
+            frontmatter,
+          }),
+        }
+      )
 
       if (!saveResponse.ok) {
         const error = await saveResponse.json()
@@ -135,19 +140,19 @@ export default function EditPost() {
     <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="py-8">
-          <div className="flex items-center justify-between mb-8">
+          <div className="mb-8 flex items-center justify-between">
             <h1 className="text-3xl font-bold text-gray-900 dark:text-white">编辑文章</h1>
             <div className="flex gap-4">
               <button
                 onClick={() => router.push('/admin/posts')}
-                className="bg-gray-500 text-white px-4 py-2 rounded hover:bg-gray-600 transition-colors"
+                className="rounded bg-gray-500 px-4 py-2 text-white transition-colors hover:bg-gray-600"
               >
                 取消
               </button>
               <button
                 onClick={handleSave}
                 disabled={isSaving}
-                className="bg-pink-500 text-white px-4 py-2 rounded hover:bg-pink-600 transition-colors disabled:bg-pink-300"
+                className="rounded bg-pink-500 px-4 py-2 text-white transition-colors hover:bg-pink-600 disabled:bg-pink-300"
               >
                 {isSaving ? '保存中...' : '保存'}
               </button>
@@ -163,7 +168,7 @@ export default function EditPost() {
                 type="text"
                 value={title}
                 onChange={(e) => setTitle(e.target.value)}
-                className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-pink-500 focus:ring-pink-500 dark:bg-gray-800 dark:border-gray-600 dark:text-white"
+                className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-pink-500 focus:ring-pink-500 dark:border-gray-600 dark:bg-gray-800 dark:text-white"
               />
             </div>
 
@@ -175,7 +180,7 @@ export default function EditPost() {
                 type="text"
                 value={tags}
                 onChange={(e) => setTags(e.target.value)}
-                className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-pink-500 focus:ring-pink-500 dark:bg-gray-800 dark:border-gray-600 dark:text-white"
+                className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-pink-500 focus:ring-pink-500 dark:border-gray-600 dark:bg-gray-800 dark:text-white"
               />
             </div>
 
@@ -187,7 +192,7 @@ export default function EditPost() {
                 value={summary}
                 onChange={(e) => setSummary(e.target.value)}
                 rows={3}
-                className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-pink-500 focus:ring-pink-500 dark:bg-gray-800 dark:border-gray-600 dark:text-white"
+                className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-pink-500 focus:ring-pink-500 dark:border-gray-600 dark:bg-gray-800 dark:text-white"
               />
             </div>
 
@@ -199,14 +204,12 @@ export default function EditPost() {
                   onChange={(e) => setIsDraft(e.target.checked)}
                   className="rounded border-gray-300 text-pink-600 shadow-sm focus:border-pink-500 focus:ring-pink-500"
                 />
-                <span className="ml-2 text-sm text-gray-700 dark:text-gray-300">
-                  保存为草稿
-                </span>
+                <span className="ml-2 text-sm text-gray-700 dark:text-gray-300">保存为草稿</span>
               </label>
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+              <label className="mb-2 block text-sm font-medium text-gray-700 dark:text-gray-300">
                 内容
               </label>
               <PostEditor content={content} onChange={setContent} />
@@ -220,7 +223,7 @@ export default function EditPost() {
 
 export async function getServerSideProps(context) {
   const session = await getSession(context)
-  
+
   if (!session) {
     return {
       redirect: {
@@ -232,7 +235,7 @@ export async function getServerSideProps(context) {
 
   // 验证管理员权限
   const isAdmin = session?.user?.email === process.env.ADMIN_EMAIL
-  
+
   if (!isAdmin) {
     return {
       redirect: {
@@ -244,7 +247,7 @@ export async function getServerSideProps(context) {
 
   return {
     props: {
-      session
-    }
+      session,
+    },
   }
-} 
+}

@@ -128,7 +128,7 @@ export default function TagsManagement({ initialTags }) {
   }, [])
 
   if (status === 'loading' || isLoading) {
-    return <div className="min-h-screen flex items-center justify-center">Loading...</div>
+    return <div className="flex min-h-screen items-center justify-center">Loading...</div>
   }
 
   if (!session) {
@@ -140,19 +140,21 @@ export default function TagsManagement({ initialTags }) {
     <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="py-8">
-          <div className="flex items-center justify-between mb-8">
+          <div className="mb-8 flex items-center justify-between">
             <h1 className="text-3xl font-bold text-gray-900 dark:text-white">标签管理</h1>
             <button
               onClick={() => router.push('/admin')}
-              className="bg-gray-500 text-white px-4 py-2 rounded hover:bg-gray-600 transition-colors"
+              className="rounded bg-gray-500 px-4 py-2 text-white transition-colors hover:bg-gray-600"
             >
               返回管理后台
             </button>
           </div>
-          
-          <div className="bg-white rounded-lg shadow-lg p-6 dark:bg-zinc-800">
+
+          <div className="rounded-lg bg-white p-6 shadow-lg dark:bg-zinc-800">
             <div className="mb-8">
-              <h2 className="text-xl font-semibold mb-4 text-gray-900 dark:text-white">添加新标签</h2>
+              <h2 className="mb-4 text-xl font-semibold text-gray-900 dark:text-white">
+                添加新标签
+              </h2>
               <div className="flex gap-4">
                 <input
                   type="text"
@@ -160,12 +162,12 @@ export default function TagsManagement({ initialTags }) {
                   onChange={(e) => setNewTag(e.target.value)}
                   onKeyPress={(e) => e.key === 'Enter' && handleAddTag()}
                   placeholder="输入标签名称"
-                  className="flex-1 px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-zinc-700 dark:border-zinc-600 dark:text-white"
+                  className="flex-1 rounded-md border border-gray-300 px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500 dark:border-zinc-600 dark:bg-zinc-700 dark:text-white"
                 />
                 <button
                   onClick={handleAddTag}
                   disabled={!newTag.trim() || isLoading}
-                  className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 transition-colors disabled:bg-blue-300"
+                  className="rounded bg-blue-500 px-4 py-2 text-white transition-colors hover:bg-blue-600 disabled:bg-blue-300"
                 >
                   添加标签
                 </button>
@@ -173,21 +175,21 @@ export default function TagsManagement({ initialTags }) {
             </div>
 
             <div>
-              <h2 className="text-xl font-semibold mb-4 text-gray-900 dark:text-white">现有标签</h2>
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+              <h2 className="mb-4 text-xl font-semibold text-gray-900 dark:text-white">现有标签</h2>
+              <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
                 {tags.map((tag) => (
                   <div
                     key={tag.name}
-                    className="flex items-center justify-between p-4 bg-gray-100 rounded-md dark:bg-zinc-700"
+                    className="flex items-center justify-between rounded-md bg-gray-100 p-4 dark:bg-zinc-700"
                   >
                     {editingTag === tag.name ? (
-                      <div className="flex-1 flex gap-2">
+                      <div className="flex flex-1 gap-2">
                         <input
                           type="text"
                           value={editValue}
                           onChange={(e) => setEditValue(e.target.value)}
                           onKeyPress={(e) => e.key === 'Enter' && handleSaveEdit()}
-                          className="flex-1 px-2 py-1 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-zinc-600 dark:border-zinc-500 dark:text-white"
+                          className="flex-1 rounded-md border border-gray-300 px-2 py-1 focus:outline-none focus:ring-2 focus:ring-blue-500 dark:border-zinc-500 dark:bg-zinc-600 dark:text-white"
                         />
                         <button
                           onClick={handleSaveEdit}
@@ -229,7 +231,7 @@ export default function TagsManagement({ initialTags }) {
                   </div>
                 ))}
                 {tags.length === 0 && (
-                  <div className="col-span-3 text-center py-8 text-gray-500 dark:text-gray-400">
+                  <div className="col-span-3 py-8 text-center text-gray-500 dark:text-gray-400">
                     暂无标签
                   </div>
                 )}
@@ -244,7 +246,7 @@ export default function TagsManagement({ initialTags }) {
 
 export async function getServerSideProps(context) {
   const session = await getSession(context)
-  
+
   if (!session) {
     return {
       redirect: {
@@ -256,7 +258,7 @@ export async function getServerSideProps(context) {
 
   // 验证管理员权限
   const isAdmin = session?.user?.email === process.env.ADMIN_EMAIL
-  
+
   if (!isAdmin) {
     return {
       redirect: {
@@ -272,28 +274,30 @@ export async function getServerSideProps(context) {
 
   const tagCounts = new Map()
   filenames
-    .filter(filename => filename.endsWith('.mdx'))
-    .forEach(filename => {
+    .filter((filename) => filename.endsWith('.mdx'))
+    .forEach((filename) => {
       const filePath = path.join(postsDirectory, filename)
       const fileContents = fs.readFileSync(filePath, 'utf8')
       const { data } = matter(fileContents)
-      
+
       if (data.tags && Array.isArray(data.tags)) {
-        data.tags.forEach(tag => {
+        data.tags.forEach((tag) => {
           tagCounts.set(tag, (tagCounts.get(tag) || 0) + 1)
         })
       }
     })
 
-  const initialTags = Array.from(tagCounts.entries()).map(([name, count]) => ({
-    name,
-    count
-  })).sort((a, b) => a.name.localeCompare(b.name))
+  const initialTags = Array.from(tagCounts.entries())
+    .map(([name, count]) => ({
+      name,
+      count,
+    }))
+    .sort((a, b) => a.name.localeCompare(b.name))
 
   return {
     props: {
       session,
-      initialTags
-    }
+      initialTags,
+    },
   }
-} 
+}

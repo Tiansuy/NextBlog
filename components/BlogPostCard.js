@@ -26,21 +26,21 @@ const BlogPostCard = ({ slug, date, title, summary, tags, content }) => {
 
     // 如果文章中没有图片，则使用 waifu.pics API
     fetch('https://api.waifu.pics/sfw/waifu')
-      .then(response => response.json())
-      .then(data => {
+      .then((response) => response.json())
+      .then((data) => {
         setPostImage(data.url)
       })
-      .catch(error => {
+      .catch((error) => {
         console.error('Error fetching random image:', error)
         setPostImage(defaultImage)
       })
   }, [content])
 
   return (
-    <div className="my-4 group relative">
+    <div className="group relative my-4">
       {/* 变形背景层 */}
-      <div className="absolute inset-0 bg-transparent bg-opacity-20 group-hover:bg-gray-100 group-hover:shadow-[5px_-5px_0_0_#ec4899] group-hover:ring-2 group-hover:ring-pink-500 dark:group-hover:bg-gray-800 group-hover:[transform:skew(-10deg)_translateX(-25px)]" />
-      
+      <div className="absolute inset-0 bg-transparent bg-opacity-20 group-hover:bg-gray-100 group-hover:shadow-[5px_-5px_0_0_#ec4899] group-hover:ring-2 group-hover:ring-pink-500 group-hover:[transform:skew(-10deg)_translateX(-25px)] dark:group-hover:bg-gray-800" />
+
       <Link
         href={`/blog/${slug}`}
         className="relative flex overflow-hidden group-hover:translate-x-6"
@@ -74,27 +74,25 @@ const BlogPostCard = ({ slug, date, title, summary, tags, content }) => {
                     <Tag key={tag} text={tag} />
                   ))}
                 </div>
-                <div className="prose max-w-none text-gray-500 dark:text-gray-400">
-                  {summary}
-                </div>
+                <div className="prose max-w-none text-gray-500 dark:text-gray-400">{summary}</div>
               </div>
             </div>
           </div>
 
           {/* 右侧图片区域 */}
-          <div className="relative w-[40%] overflow-hidden rounded-2xl group-hover:rounded-none transition-all duration-300">
+          <div className="relative w-[40%] overflow-hidden rounded-2xl transition-all duration-300 group-hover:rounded-none">
             <div className="absolute inset-0 group-hover:[clip-path:polygon(25px_0,_calc(100%_-_30px)_0,_calc(75%_+_35px)_100%,_0_100%)]">
               <Image
                 src={postImage || defaultImage}
                 alt={title}
                 width={600}
                 height={400}
-                className="h-full w-full scale-125 object-cover rounded-2xl group-hover:rounded-none transition-all duration-300"
+                className="h-full w-full scale-125 rounded-2xl object-cover transition-all duration-300 group-hover:rounded-none"
                 sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 40vw"
                 priority={false}
                 loading="lazy"
               />
-              <div className="absolute inset-0 bg-white/10 rounded-2xl group-hover:rounded-none transition-all duration-300" />
+              <div className="absolute inset-0 rounded-2xl bg-white/10 transition-all duration-300 group-hover:rounded-none" />
             </div>
           </div>
         </article>
@@ -103,4 +101,4 @@ const BlogPostCard = ({ slug, date, title, summary, tags, content }) => {
   )
 }
 
-export default BlogPostCard 
+export default BlogPostCard

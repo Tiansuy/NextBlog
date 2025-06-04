@@ -36,9 +36,9 @@ const LayoutWrapper = ({ children }) => {
   // Memoize the decoded and truncated path
   const pathDisplay = useMemo(() => {
     const decodedPath = decodeURIComponent(router.asPath)
-    const maxLength = "~/admin/posts/edit/中文测试测试测试".length
-    return decodedPath.length > maxLength 
-      ? decodedPath.slice(0, maxLength - 3) + '...' 
+    const maxLength = '~/admin/posts/edit/中文测试测试测试'.length
+    return decodedPath.length > maxLength
+      ? decodedPath.slice(0, maxLength - 3) + '...'
       : decodedPath
   }, [router.asPath])
 
@@ -61,7 +61,7 @@ const LayoutWrapper = ({ children }) => {
                 )}
               </div> */}
               <div className="text-primary-color dark:text-primary-color-dark flex items-center justify-between text-xl font-semibold">
-                <span className="hover:text-pink-500 transition-colors">{`~${pathDisplay}`}</span>
+                <span className="transition-colors hover:text-pink-500">{`~${pathDisplay}`}</span>
                 <Typewriter
                   options={{
                     strings: [],

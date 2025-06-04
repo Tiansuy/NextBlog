@@ -13,7 +13,7 @@ const ThemeSwitch = () => {
 
   const [ThemeSound] = useSound('/static/sounds/switch-on.mp3', {
     volume: 0.5,
-    preload: true
+    preload: true,
   })
 
   const handleThemeSwitch = useCallback(() => {
@@ -25,16 +25,16 @@ const ThemeSwitch = () => {
   if (!mounted) return null
 
   return (
-    <motion.div 
+    <motion.div
       className="ml-1 cursor-pointer rounded-full bg-zinc-300 dark:bg-zinc-700"
-      whileHover={{ 
+      whileHover={{
         scale: 1.05,
-        translateY: -2
+        translateY: -2,
       }}
-      transition={{ 
-        type: "spring",
+      transition={{
+        type: 'spring',
         stiffness: 400,
-        damping: 10
+        damping: 10,
       }}
     >
       <motion.button
@@ -43,9 +43,9 @@ const ThemeSwitch = () => {
           scale: 0.7,
           rotate: 360,
         }}
-        transition={{ 
+        transition={{
           duration: 0.2,
-          ease: [0.25, 0.1, 0.25, 1.0]
+          ease: [0.25, 0.1, 0.25, 1.0],
         }}
         aria-label="Toggle Dark Mode"
         type="button"
@@ -55,17 +55,17 @@ const ThemeSwitch = () => {
           initial={false}
           animate={{
             scale: 1,
-            opacity: 1
+            opacity: 1,
           }}
           exit={{
             scale: 0,
-            opacity: 0
+            opacity: 0,
           }}
           transition={{
-            duration: 0.2
+            duration: 0.2,
           }}
         >
-          {(theme === 'dark' || resolvedTheme === 'dark') ? (
+          {theme === 'dark' || resolvedTheme === 'dark' ? (
             <HiSun className="h-4 w-4 transform-gpu" />
           ) : (
             <HiMoon className="h-4 w-4 transform-gpu" />

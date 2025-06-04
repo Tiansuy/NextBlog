@@ -1,7 +1,7 @@
 const siteMetadata = {
   title: 'Blog | Tiansuy',
   author: 'Tiansuy Lee',
-  headerTitle: 'Tiansuy\'s space station',
+  headerTitle: "Tiansuy's space station",
   description: 'My personal blog where I share my shit',
   snippets: 'Reuseable code snippets collected by Tiansuy',
   language: 'en-us',

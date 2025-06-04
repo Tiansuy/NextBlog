@@ -15,18 +15,14 @@ const ComboboxOption = memo(({ page, active }) => (
   >
     <span
       className={`font-medium ${
-        active
-          ? 'text-neutral-900 dark:text-neutral-200'
-          : 'text-neutral-900 dark:text-neutral-200'
+        active ? 'text-neutral-900 dark:text-neutral-200' : 'text-neutral-900 dark:text-neutral-200'
       }`}
     >
       {page.name}
     </span>
     <span
       className={`${
-        active
-          ? 'text-neutral-700 dark:text-neutral-600'
-          : 'text-neutral-500 dark:text-neutral-800'
+        active ? 'text-neutral-700 dark:text-neutral-600' : 'text-neutral-500 dark:text-neutral-800'
       }`}
     >
       {page.repo}
@@ -43,7 +39,7 @@ const CommandPalette = ({ navigation }) => {
 
   const [ThemeSound] = useSound('/static/sounds/open.mp3', {
     volume: 0.5,
-    preload: true
+    preload: true,
   })
 
   const toggleIcon = useCallback(() => {
@@ -64,9 +60,7 @@ const CommandPalette = ({ navigation }) => {
 
   const filteredNavigation = useMemo(() => {
     if (!query) return navigation.pages
-    return navigation.pages.filter((page) => 
-      page.name.toLowerCase().includes(query.toLowerCase())
-    )
+    return navigation.pages.filter((page) => page.name.toLowerCase().includes(query.toLowerCase()))
   }, [query, navigation.pages])
 
   return (

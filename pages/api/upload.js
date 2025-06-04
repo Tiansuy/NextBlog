@@ -33,7 +33,7 @@ function sanitizeFilename(filename) {
 
 export default async function handler(req, res) {
   const session = await getSession({ req })
-  
+
   if (!session || session.user?.email !== process.env.ADMIN_EMAIL) {
     return res.status(401).json({ error: 'Unauthorized' })
   }
@@ -44,7 +44,7 @@ export default async function handler(req, res) {
 
   try {
     const uploadDir = path.join(process.cwd(), 'public/uploads')
-    
+
     // 确保上传目录存在
     if (!fs.existsSync(uploadDir)) {
       fs.mkdirSync(uploadDir, { recursive: true })
@@ -58,7 +58,7 @@ export default async function handler(req, res) {
         // 使用原始文件名生成新的文件名
         const originalName = part.originalFilename || 'unnamed'
         return sanitizeFilename(originalName)
-      }
+      },
     })
 
     return new Promise((resolve, reject) => {
@@ -87,4 +87,4 @@ export default async function handler(req, res) {
     console.error('Upload error:', error)
     res.status(500).json({ error: 'Upload failed' })
   }
-} 
+}

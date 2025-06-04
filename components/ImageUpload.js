@@ -41,7 +41,7 @@ export default function ImageUpload({ onUpload }) {
       alert('上传图片失败')
     }
     setIsUploading(false)
-    
+
     // 清除文件输入，允许重复上传相同文件
     fileInputRef.current.value = ''
   }
@@ -59,10 +59,10 @@ export default function ImageUpload({ onUpload }) {
       <button
         onClick={() => fileInputRef.current.click()}
         disabled={isUploading}
-        className="px-3 py-1 bg-gray-200 rounded hover:bg-gray-300 dark:bg-gray-700 dark:hover:bg-gray-600"
+        className="rounded bg-gray-200 px-3 py-1 hover:bg-gray-300 dark:bg-gray-700 dark:hover:bg-gray-600"
       >
         {isUploading ? '上传中...' : '插入图片'}
       </button>
     </div>
   )
-} 
+}

@@ -109,10 +109,7 @@ export default function AuthorLayout({ children, frontMatter }) {
             <br />
             <p className="sm:block md:hidden lg:hidden">
               No one should suffer from what others force them to do. Be a dick to kick this world.
-              <span className="font-semibold">
-                {' '}
-                And you will feel peace and euphoria.{' '}
-              </span>
+              <span className="font-semibold"> And you will feel peace and euphoria. </span>
               At the same time I am{' '}
               <RoughNotation
                 type="underline"
@@ -127,7 +124,8 @@ export default function AuthorLayout({ children, frontMatter }) {
               </RoughNotation>
             </p>
             <p className="hidden md:block">
-            No one should suffer from what others force them to do. Be a dick to kick this world. <br />{' '}
+              No one should suffer from what others force them to do. Be a dick to kick this world.{' '}
+              <br />{' '}
               <RoughNotation
                 animationDelay="1000"
                 animationDuration="3000"
@@ -137,9 +135,9 @@ export default function AuthorLayout({ children, frontMatter }) {
                 show={true}
               >
                 <span className="text-black dark:text-white">
-                And you will feel peace and euphoria.{' '}
+                  And you will feel peace and euphoria.{' '}
                 </span>
-              </RoughNotation> 
+              </RoughNotation>
               At the same time I am{' '}
               <RoughNotation
                 type="underline"

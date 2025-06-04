@@ -5,10 +5,10 @@ import matter from 'gray-matter'
 
 export default async function handler(req, res) {
   const session = await getSession({ req })
-  
+
   // 验证管理员权限
   const isAdmin = session?.user?.email === process.env.ADMIN_EMAIL
-  
+
   if (!session || !isAdmin) {
     return res.status(401).json({ message: 'Unauthorized' })
   }
@@ -40,4 +40,4 @@ export default async function handler(req, res) {
     console.error('Error toggling draft status:', error)
     res.status(500).json({ message: 'Error updating post' })
   }
-} 
+}
